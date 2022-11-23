@@ -12,3 +12,14 @@ Players play rock-paper-scissors when they encounter each other (when they move 
 Hidden items and non-hidden items including lives and balls, which you can throw; if you throw at a player and hit him/her, he/she loses a life; if you miss, the ball is re-distributed
 
 Players have different throwing ranges and accuracies
+Players can hide balls in their possession; lives are hidden by default
+
+Classes in project:
+Location: provides x and y coordinate of a spot in the game board
+Locatable: a game object with a location: Location getLoc() (abstract class)
+Player
+Bonus Item: isHidden()
+Ball or Life are both bonus item locatables
+
+GameBoard is composed of 30x30 grid housing Locatables
+-int RPSmatch(Player one, Player two) method; returns the player code of the winner, -1 if there's a draw
