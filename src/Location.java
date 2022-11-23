@@ -19,6 +19,7 @@ public class Location
 		return myCol;
 	}
 	
+	//override the equals method (from the Object class) in order to adequately compare Locations
 	public boolean equals(Object o)
 	{
 		//if this is the same object, return true

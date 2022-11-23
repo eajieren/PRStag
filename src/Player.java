@@ -1,11 +1,12 @@
 
-public class Player
+public class Player extends Locatable
 {
 	private String myName;
 	private boolean isUserPlayer;
 	
 	public Player(String name, boolean userPlayer)
 	{
+		super();
 		myName = name;
 		isUserPlayer = userPlayer;
 	}
