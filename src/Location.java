@@ -1,6 +1,7 @@
 
 public class Location
 {
+	private static final int PRIME1 = 89, PRIME2 = 97;
 	private int myRow, myCol;
 	
 	public Location(int row, int col)
@@ -35,5 +36,16 @@ public class Location
 		
 		return Integer.compare(myRow, other.getRow()) == 0 && Integer.compare(myCol,  other.getCol()) == 0;
 		
+	}
+	
+	//override hashCode method (from the Object class) in order for hash-based containers to work with Location objs
+	public int hashCode()
+	{
+		return PRIME1*myRow + PRIME2*myCol;
+	}
+	
+	public String toString()
+	{
+		return new String("(" + myRow + "," + myCol + ")");
 	}
 }
