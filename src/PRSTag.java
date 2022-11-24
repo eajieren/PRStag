@@ -3,6 +3,8 @@ import javax.swing.JOptionPane;
 
 public class PRSTag
 {	
+	private static final int DEF_ROWS = 30, DEF_COLS = 30;
+	
 	public static void main(String[] args)
 	{
 		setupGame();
@@ -15,7 +17,7 @@ public class PRSTag
 		JOptionPane.showMessageDialog(f, "Setting up this game.... Press OK to continue.");
 		
 		Team t1 = new Team(true), t2 = new Team(false);
-		GameGrid gg = new GameGrid(30, 30, t1, t2);
-		JFrame jf = new GameFrame();
+		GameGrid gg = new GameGrid(DEF_ROWS, DEF_COLS, t1, t2);
+		JFrame jf = new GameFrame(DEF_ROWS, DEF_COLS);
 	}
 }
