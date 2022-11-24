@@ -6,6 +6,7 @@ public class GameGrid
 	private int numRows, numCols;
 	private Team[] participants;
 	private HashMap<Location, Locatable> spcToOccupants;
+	private GameFrame gf;
 	
 	//this could be implemented as a map of Location to Locatables; if done this way, isOccupied could just return the object
 	//at that Location or null if empty; major con of this method is storage space. You have 10 players, but you'd be storing
@@ -30,6 +31,11 @@ public class GameGrid
 		{
 			System.out.println(each.getName() + " @ " + each.getLoc());
 		}
+		
+		//gf = new GameFrame(rows, cols, participants[0], participants[1]);
+		
+		//play turns
+		//redraw
 	}
 	
 	//determines whether the spot at loc is occupied or not
@@ -47,6 +53,37 @@ public class GameGrid
 	public boolean gameOver()
 	{
 		return false;
+	}
+	
+	public int playTurn()
+	{
+		//before allowing each team to play, check to ensure that the game has not ended
+		//if it has ended, declare a winner
+		if(!participants[0].isEliminated() && !participants[1].isEliminated())
+		{
+			participants[0].playTurn();
+			if(!participants[0].isEliminated() && !participants[1].isEliminated())
+			{
+				participants[1].playTurn();
+			}
+			else
+				declareWinner();
+		}
+		else
+			declareWinner();
+		
+		return -1;
+	}
+	
+	public int declareWinner()
+	{
+		System.out.println("We've got a winner!!!");
+		return -1;
+	}
+	
+	public Team[] getTeams()
+	{
+		return participants;
 	}
 	
 	//returns a random empty location from the GameGrid

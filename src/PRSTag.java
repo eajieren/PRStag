@@ -18,6 +18,6 @@ public class PRSTag
 		
 		Team t1 = new Team(true), t2 = new Team(false);
 		GameGrid gg = new GameGrid(DEF_ROWS, DEF_COLS, t1, t2);
-		JFrame jf = new GameFrame(DEF_ROWS, DEF_COLS);
+		JFrame jf = new GameFrame(DEF_ROWS, DEF_COLS, gg);
 	}
 }

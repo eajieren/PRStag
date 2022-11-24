@@ -59,8 +59,28 @@ public class Team
 		return isUserTeam;
 	}
 	
+	public boolean isEliminated()
+	{
+		for(Player p : myPlayers)
+		{
+			if(p.getLivesRemaining() > 0)
+				return false;
+		}
+		
+		return true;
+	}
+	
 	public Player[] getPlayers()
 	{
 		return myPlayers;
+	}
+	
+	public int playTurn()
+	{
+		for(Player p : myPlayers)
+		{
+			p.playTurn();
+		}
+		return -1;
 	}
 }
