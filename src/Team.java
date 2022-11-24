@@ -14,7 +14,9 @@ public class Team
 			"Lydia", "Mozart", "Nubila", "Octavius", "Prince", "Rhett", "Dwayne", "Syrena", "Umbert",
 			"Victor", "Briony", "Sylvester", "Cameron", "Bryce", "Latavius", "Rodrick", "Alan", "Elemeno",
 			"Natalie", "Nathan", "Chris", "Carlos", "Hector", "Bree", "Julian", "Yvette", "Iggy",
-			"Vivalia", "JoAnn", "Lina", "Josie", "Bob", "Colton", "Twila", "Xavier", "Pippa", "Wei", "Jing"};
+			"Vivalia", "JoAnn", "Lina", "Josie", "Bob", "Colton", "Twila", "Xavier", "Pippa", "Wei", "Jing",
+			"Chloe", "Tyrese", "Anthony", "Alina", "Ruth", "Alma", "Rosette", "Ernest", "Felipe", "Carson",
+			"Knox"};
 	private static final Random RAND = new Random();
 	
 	private int teamID;

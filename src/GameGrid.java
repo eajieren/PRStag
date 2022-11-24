@@ -35,7 +35,7 @@ public class GameGrid
 	//determines whether the spot at loc is occupied or not
 	public boolean isOccupied(Location loc)
 	{
-		return false;
+		return spcToOccupants.containsKey(loc);
 	}
 	
 	//returns whether or not this Location is within the GameGrid

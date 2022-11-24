@@ -17,4 +17,6 @@ public abstract class Locatable
 	{
 		myLoc = newLoc;
 	}
+	
+	abstract void draw();
 }
