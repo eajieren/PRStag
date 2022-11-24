@@ -66,7 +66,8 @@ public class GameFrame extends JFrame
 		//draw both teams
 		draw(first, phics);
 		draw(second, phics);
-		update(phics);
+		if(!myGrid.gameOver())
+			update(phics);
 	}
 	
     public void update(Graphics g)    

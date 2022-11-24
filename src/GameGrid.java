@@ -1,9 +1,13 @@
 import java.util.*;
 import java.lang.Math;
+import javax.swing.JOptionPane;
 
 public class GameGrid
 {
+	private static Random rand;
+	
 	private int numRows, numCols;
+	private boolean gameOver;
 	private Team[] participants;
 	private HashMap<Location, Locatable> spcToOccupants;
 	private GameFrame gf;
@@ -16,6 +20,7 @@ public class GameGrid
 	{
 		numRows = rows;
 		numCols = cols;
+		gameOver = false;
 		participants = new Team[2];
 		participants[0] = one;
 		participants[1] = two;
@@ -32,6 +37,14 @@ public class GameGrid
 			System.out.println(each.getName() + " @ " + each.getLoc());
 		}
 		
+		int result = RPS_match(a[1], b[4]);
+		if(result > 0)
+			JOptionPane.showMessageDialog(null, "The winner is " + a[1].getName() + "!");
+		else
+			if(result == 0)
+				JOptionPane.showMessageDialog(null, "This match was a tie!!!");
+			else
+				JOptionPane.showMessageDialog(null, "The winner is " + b[4].getName() + "!");
 		//gf = new GameFrame(rows, cols, participants[0], participants[1]);
 		
 		//play turns
@@ -52,7 +65,7 @@ public class GameGrid
 	
 	public boolean gameOver()
 	{
-		return false;
+		return gameOver;
 	}
 	
 	public int playTurn()
@@ -61,6 +74,8 @@ public class GameGrid
 		//if it has ended, declare a winner
 		if(!participants[0].isEliminated() && !participants[1].isEliminated())
 		{
+			//checkMatches
+			
 			participants[0].playTurn();
 			if(!participants[0].isEliminated() && !participants[1].isEliminated())
 			{
@@ -77,6 +92,7 @@ public class GameGrid
 	
 	public int declareWinner()
 	{
+		gameOver = true;
 		System.out.println("We've got a winner!!!");
 		return -1;
 	}
@@ -121,5 +137,82 @@ public class GameGrid
 		}
 		
 		return true;
+	}
+	
+	public static int RPS_match(Player p1, Player p2)
+	{
+		JOptionPane.showMessageDialog(null, "Here we go! A rock-paper-scissors match between " + p1.getName() + " and " + p2.getName() + ".");
+		System.out.println("Paper-Rock-Scissors match between " + p1.getName() + " and " + p2.getName());
+		
+		rand = new Random();
+		int scoreP1 = 0, scoreP2 = 0;
+		
+		//from 1 to 10 rounds
+		int numRounds = rand.nextInt(10) + 1;
+		do
+		{
+			RPS play1 = p1.getRPSMove();
+			RPS play2 = p2.getRPSMove();
+			
+			if(play1 != play2)
+			{
+				switch(play1)
+				{
+					case ROCK:
+					{
+						if(play2 == RPS.PAPER)
+						{
+							JOptionPane.showMessageDialog(null, p2.getName() + " throws PAPER and wins!");
+							scoreP2++;
+						}	
+						else
+						{
+							JOptionPane.showMessageDialog(null, p1.getName() + " throws ROCK and wins!");
+							scoreP1++;
+						}
+						break;
+					}
+					case PAPER:
+					{
+						if(play2 == RPS.SCISSORS)
+						{
+							JOptionPane.showMessageDialog(null, p2.getName() + " throws SCISSORS and wins!");
+							scoreP2++;
+						}	
+						else
+						{
+							JOptionPane.showMessageDialog(null, p1.getName() + " throws PAPER and wins!");
+							scoreP1++;
+						}
+						break;
+					}
+					case SCISSORS:
+					{
+						if(play2 == RPS.ROCK)
+						{
+							JOptionPane.showMessageDialog(null, p2.getName() + " throws ROCK and wins!");
+							scoreP2++;
+						}	
+						else
+						{
+							JOptionPane.showMessageDialog(null, p1.getName() + " throws SCISSORS and wins!");
+							scoreP1++;
+						}
+						break;
+					}
+					default:
+						break;
+				}
+			}
+			else
+			{
+				JOptionPane.showMessageDialog(null, "That round was a draw!");
+			}
+			
+			numRounds--;
+		}
+		while(numRounds > 0);
+		
+		return scoreP1 - scoreP2;
 	}
 }
