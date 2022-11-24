@@ -73,7 +73,7 @@ public class Player extends Locatable
 		{
 			String[] choices = {"Rock", "Paper", "Scissors"};
 			int s = JOptionPane.showOptionDialog(null,
-					myName + ", choose your play for this match.", "Rock-Paper-Scissors",
+					myName + ", choose your play for this round.", "Rock-Paper-Scissors",
 					JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null,
 					choices, choices[0]);
 			String selected = choices[s];
@@ -81,10 +81,7 @@ public class Player extends Locatable
 				return RPS.ROCK;
 			if(selected == "Paper")
 				return RPS.PAPER;
-			if(selected == "Scissors")
-				return RPS.SCISSORS;
-			System.out.println("getRPSMove for user choice is not selecting an option");
-			return RPS.PAPER;
+			return RPS.SCISSORS;
 		}
 	}
 	

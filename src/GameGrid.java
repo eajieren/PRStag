@@ -38,13 +38,13 @@ public class GameGrid
 		}
 		
 		int result = RPS_match(a[1], b[4]);
-		if(result > 0)
-			JOptionPane.showMessageDialog(null, "The winner is " + a[1].getName() + "!");
-		else
-			if(result == 0)
-				JOptionPane.showMessageDialog(null, "This match was a tie!!!");
-			else
-				JOptionPane.showMessageDialog(null, "The winner is " + b[4].getName() + "!");
+		displayRoundResults(a[1], b[4], result);
+		
+		int result2 = RPS_match(a[3], b[2]);
+		displayRoundResults(a[3], b[2], result2);
+		
+		int result3 = RPS_match(a[2], a[4]);
+		displayRoundResults(a[2], a[4], result3);
 		//gf = new GameFrame(rows, cols, participants[0], participants[1]);
 		
 		//play turns
@@ -55,6 +55,13 @@ public class GameGrid
 	public boolean isOccupied(Location loc)
 	{
 		return spcToOccupants.containsKey(loc);
+	}
+	
+	public boolean isFreeOfPlayers(Location loc)
+	{
+		if(isOccupied(loc))
+			return !(spcToOccupants.get(loc) instanceof Player);
+		return true;
 	}
 	
 	//returns whether or not this Location is within the GameGrid
@@ -102,6 +109,25 @@ public class GameGrid
 		return participants;
 	}
 	
+	//returns an ArrayList of Locations surrounding loc that are in-bounds and don't have any Players occupying them
+	public ArrayList<Location> getValidEmptySurroundingSpaces(Location loc)
+	{
+		ArrayList<Location> goodLocs = new ArrayList<Location>();
+		for(int a = -1; a <= 1; a++)
+		{
+			for(int b = -1; b <= 1; b++)
+			{
+				if(a == b && a == 0)
+					continue;
+				Location nearby = new Location(loc.getRow() + a, loc.getCol() + b);
+				if(isInBounds(nearby) && !isFreeOfPlayers(nearby))
+					goodLocs.add(nearby);
+			}
+		}
+		
+		return goodLocs;
+	}
+	
 	//returns a random empty location from the GameGrid
 	public Location randomEmptyLoc()
 	{
@@ -139,6 +165,7 @@ public class GameGrid
 		return true;
 	}
 	
+	//runs a rock-paper-scissors match between Players p1 and p2
 	public static int RPS_match(Player p1, Player p2)
 	{
 		JOptionPane.showMessageDialog(null, "Here we go! A rock-paper-scissors match between " + p1.getName() + " and " + p2.getName() + ".");
@@ -146,6 +173,7 @@ public class GameGrid
 		
 		rand = new Random();
 		int scoreP1 = 0, scoreP2 = 0;
+		boolean userPresent = p1.isUserPlayer() || p2.isUserPlayer();
 		
 		//from 1 to 10 rounds
 		int numRounds = rand.nextInt(10) + 1;
@@ -162,12 +190,14 @@ public class GameGrid
 					{
 						if(play2 == RPS.PAPER)
 						{
-							JOptionPane.showMessageDialog(null, p2.getName() + " throws PAPER and wins!");
+							if(userPresent)
+								JOptionPane.showMessageDialog(null, p2.getName() + " throws PAPER and wins!");
 							scoreP2++;
 						}	
 						else
 						{
-							JOptionPane.showMessageDialog(null, p1.getName() + " throws ROCK and wins!");
+							if(userPresent)
+								JOptionPane.showMessageDialog(null, p1.getName() + " throws ROCK and wins!");
 							scoreP1++;
 						}
 						break;
@@ -176,12 +206,14 @@ public class GameGrid
 					{
 						if(play2 == RPS.SCISSORS)
 						{
-							JOptionPane.showMessageDialog(null, p2.getName() + " throws SCISSORS and wins!");
+							if(userPresent)
+								JOptionPane.showMessageDialog(null, p2.getName() + " throws SCISSORS and wins!");
 							scoreP2++;
 						}	
 						else
 						{
-							JOptionPane.showMessageDialog(null, p1.getName() + " throws PAPER and wins!");
+							if(userPresent)
+								JOptionPane.showMessageDialog(null, p1.getName() + " throws PAPER and wins!");
 							scoreP1++;
 						}
 						break;
@@ -190,12 +222,14 @@ public class GameGrid
 					{
 						if(play2 == RPS.ROCK)
 						{
-							JOptionPane.showMessageDialog(null, p2.getName() + " throws ROCK and wins!");
+							if(userPresent)
+								JOptionPane.showMessageDialog(null, p2.getName() + " throws ROCK and wins!");
 							scoreP2++;
 						}	
 						else
 						{
-							JOptionPane.showMessageDialog(null, p1.getName() + " throws SCISSORS and wins!");
+							if(userPresent)
+								JOptionPane.showMessageDialog(null, p1.getName() + " throws SCISSORS and wins!");
 							scoreP1++;
 						}
 						break;
@@ -206,13 +240,31 @@ public class GameGrid
 			}
 			else
 			{
-				JOptionPane.showMessageDialog(null, "That round was a draw!");
+				if(userPresent)
+					JOptionPane.showMessageDialog(null, "That round was a draw!");
 			}
+			
+			if(userPresent)
+				JOptionPane.showMessageDialog(null, p1.getName() + ": " + scoreP1 + "\n" + p2.getName() + ": " + scoreP2);
 			
 			numRounds--;
 		}
 		while(numRounds > 0);
 		
 		return scoreP1 - scoreP2;
+	}
+	
+	//displays a JOptionPane message regarding the results of the RPS match
+	private static int displayRoundResults(Player p1, Player p2, int result)
+	{
+		if(result > 0)
+			JOptionPane.showMessageDialog(null, "The match is over! The winner is " + p1.getName() + "!");
+		else
+			if(result == 0)
+				JOptionPane.showMessageDialog(null, "The match is over, and it was a tie!!!");
+			else
+				JOptionPane.showMessageDialog(null, "The match is over! The winner is " + p2.getName() + "!");
+		
+		return -1;
 	}
 }
