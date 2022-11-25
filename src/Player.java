@@ -10,31 +10,42 @@ public class Player extends Locatable
 	private final double PROB_ROCK, PROB_PAPER;
 	private String myName;
 	private Random rand;
-	private int myPID, livesRemaining, turnsPlayed;
+	private int myPID, myTeamID, livesRemaining, turnsPlayed, numBalls;
 	private boolean isUserPlayer;
 	private HashMap<Player, Integer> recentOpponents;
 	
-	public Player(String name, boolean userPlayer)
+	public Player(String name, int teamID, boolean userPlayer)
 	{
 		super();
 		myName = name;
 		myPID = nextPID++;
+		myTeamID = teamID;
 		livesRemaining = NUM_LIVES;
+		numBalls = 0;
 		isUserPlayer = userPlayer;
 		turnsPlayed = 0;
 		recentOpponents = new HashMap<Player, Integer>();
-		rand = new Random();
-		double d1 = rand.nextDouble(), d2 = rand.nextDouble();
-		if(d1 < d2)
+		
+		if(!userPlayer)
 		{
-			PROB_ROCK = d1;
-			PROB_PAPER = d2;
+			rand = new Random();
+			double d1 = rand.nextDouble(), d2 = rand.nextDouble();
+			if(d1 < d2)
+			{
+				PROB_ROCK = d1;
+				PROB_PAPER = d2;
+			}
+			else
+			{
+				PROB_ROCK = d2;
+				PROB_PAPER = d1;
+			}
 		}
 		else
 		{
-			PROB_ROCK = d2;
-			PROB_PAPER = d1;
+			PROB_ROCK = PROB_PAPER = 0;
 		}
+		
 	}
 	
 	public String getName()
@@ -52,9 +63,19 @@ public class Player extends Locatable
 		return myPID;
 	}
 	
+	public int getTeamID()
+	{
+		return myTeamID;
+	}
+	
 	public int getLivesRemaining()
 	{
 		return livesRemaining;
+	}
+	
+	public HashMap<Player, Integer> getRecentOpponents()
+	{
+		return recentOpponents;
 	}
 	
 	public RPS getRPSMove()
@@ -91,11 +112,10 @@ public class Player extends Locatable
 		//check if you're bordering any opposing players whom you haven't seen within 5 turns (COUNT TURNS)
 		//
 		
-		//reduceOpponents(); //decreases the turn-count for each of these opponents
-		//addPRSOpponent();	//adds any recent opponents
+		reduceOpponents(); //decreases the turn-count for each of these opponents
 		
 		//TEST
-		livesRemaining--;
+		//livesRemaining--;
 		
 		turnsPlayed++;
 		return -1;
@@ -104,6 +124,35 @@ public class Player extends Locatable
 	public int addPRSOpponent(Player p)
 	{
 		recentOpponents.put(p, 5);
+		return -1;
+	}
+	
+	public int loseLife()
+	{
+		livesRemaining--;
+		return -1;
+	}
+	
+	public int getBallCount()
+	{
+		return numBalls;
+	}
+	
+	private int reduceOpponents()
+	{
+		//iterate through all recent opponents in HashMap;
+		//if the associated integer is greater than 1, decrement it by 1;
+		//if the associated integer = 1, remove the Player from the map;
+		
+		for (HashMap.Entry<Player,Integer> mapElement : recentOpponents.entrySet())
+		{
+			int val = mapElement.getValue();
+			if(val > 1)
+				mapElement.setValue(val - 1);
+			else
+				recentOpponents.remove(mapElement.getKey());
+		}
+		
 		return -1;
 	}
 }

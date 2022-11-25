@@ -4,7 +4,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-
+import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
@@ -63,11 +63,12 @@ public class GameFrame extends JFrame
 			phics.drawLine(X_OFFSET, Y_OFFSET + y, X_OFFSET + F_WIDTH, Y_OFFSET + y);
 		}
 		
-		//draw both teams
+		//draw both teams and bonus items
 		draw(first, phics);
 		draw(second, phics);
-		if(!myGrid.gameOver())
-			update(phics);
+		draw(myGrid.getBonuses(), phics);
+		//if(!myGrid.gameOver())
+		//	update(phics);
 	}
 	
     public void update(Graphics g)    
@@ -92,6 +93,37 @@ public class GameFrame extends JFrame
 				int[] drawLocs = convertToDraw(p.getLoc());
 				g2.fillOval(drawLocs[0], drawLocs[1], X_INTERVAL, Y_INTERVAL);
 			}
+		}
+		
+		return true;
+	}
+	
+	private boolean draw(ArrayList<BonusItem> biList, Graphics gfx)
+	{
+		Graphics2D g2 = (Graphics2D) gfx;
+		
+		for(BonusItem bItem : biList)
+		{
+			if(bItem.isHidden())
+				continue;
+			
+			int[] drawLocs = convertToDraw(bItem.getLoc());
+			
+			switch(bItem.getType())
+			{
+				case BALL:
+				{
+					g2.setColor(Color.black);
+					break;
+				}
+				default:
+				{
+					g2.setColor(Color.pink);
+					break;
+				}
+			}
+			
+			g2.fillOval(drawLocs[0]+5, drawLocs[1]+5, X_INTERVAL - 10, Y_INTERVAL - 10);
 		}
 		
 		return true;

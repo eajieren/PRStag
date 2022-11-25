@@ -34,7 +34,7 @@ public class Team
 			for(int i = 0; i < PLYRS_PER_TEAM; i++)
 			{
 				int index = ((int) Math.abs(RAND.nextInt())) % OPPOSING_NAMES.length;
-				myPlayers[i] = new Player(OPPOSING_NAMES[index], false);
+				myPlayers[i] = new Player(OPPOSING_NAMES[index], teamID, false);
 			}
 		}
 		else
@@ -44,7 +44,7 @@ public class Team
 			{
 				f = new JFrame();
 				String name = JOptionPane.showInputDialog(f, "Setting up your team. Please enter the name for Player #" + (i+1));
-				myPlayers[i] = new Player(name, true);
+				myPlayers[i] = new Player(name, teamID, true);
 			}
 		}
 	}
